@@ -39,3 +39,22 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Node modules
+node_modules/
+
+# File upload dan hasil waifu2x
+uploads/
+results/
+
+# Folder executable waifu2x
+waifu2x-ncnn-*/
+
+# File log atau temporary
+*.log
+*.tmp
+
+# Sistem dan IDE
+.DS_Store
+.env
+.vscode/
