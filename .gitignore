@@ -44,9 +44,7 @@ next-env.d.ts
 node_modules/
 
 uploads/*
-!uploads/.gitkeep
 results/*
-!results/.gitkeep
 
 # Folder executable waifu2x
 waifu2x-ncnn-*/
