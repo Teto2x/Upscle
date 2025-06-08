@@ -1,23 +1,14 @@
-const express = require("express");
-const multer = require("multer");
-const { exec } = require("child_process");
-const path = require("path");
-const fs = require("fs");
-
-const router = express.Router();
-
-// Setup multer
-const storage = multer.diskStorage({
-  destination: "uploads/",
-  filename: (req, file, cb) => cb(null, Date.now() + "-" + file.originalname),
-});
-const upload = multer({ storage });
-
 router.post("/", upload.single("image"), (req, res) => {
-  const inputPath = req.file.path;
-  const outputPath = "results/" + req.file.filename;
+  if (!req.file) return res.status(400).send("No file uploaded");
 
-  const waifuCommand = `./waifu2x-ncnn-vulkan-20250504-windows/waifu2x-ncnn-vulkan.exe -i ${inputPath} -o ${outputPath} -n 2 -s 2`;
+  const inputPath = req.file.path;
+  const outputPath = path.join("results", req.file.filename);
+
+  // Buat folder jika belum ada
+  if (!fs.existsSync("uploads")) fs.mkdirSync("uploads");
+  if (!fs.existsSync("results")) fs.mkdirSync("results");
+
+  const waifuCommand = `./waifu2x-ncnn-vulkan-20250504-windows/waifu2x-ncnn-vulkan.exe -i "${inputPath}" -o "${outputPath}" -n 2 -s 2`;
 
   exec(waifuCommand, (err) => {
     if (err) {
@@ -25,8 +16,10 @@ router.post("/", upload.single("image"), (req, res) => {
       return res.status(500).send("Upscaling failed");
     }
 
-    res.json({ url: `/results/${path.basename(outputPath)}` });
+    res.json({
+      success: true,
+      url: `/results/${path.basename(outputPath)}`,
+      file: req.file.filename
+    });
   });
 });
-
-module.exports = router;
