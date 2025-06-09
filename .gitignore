@@ -50,6 +50,7 @@ results/*
 
 # Folder executable waifu2x
 waifu2x-ncnn-*/
+waifu2x-ncnn-vulkan-20250504-windows
 
 # File log atau temporary
 *.log
