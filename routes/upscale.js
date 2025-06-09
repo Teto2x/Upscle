@@ -8,7 +8,7 @@ router.post("/", upload.single("image"), (req, res) => {
   if (!fs.existsSync("uploads")) fs.mkdirSync("uploads");
   if (!fs.existsSync("results")) fs.mkdirSync("results");
 
-  const waifuCommand = `./waifu2x-ncnn-vulkan-20250504-windows/waifu2x-ncnn-vulkan.exe -i "${inputPath}" -o "${outputPath}" -n 2 -s 2`;
+  const waifuCommand = `./waifu2x-ncnn-vulkan-20250504-windows/waifu2x-ncnn-vulkan.exe -i "${inputPath}" -o "${outputPath}" -n 2 -s 2 -g -1`;
 
   exec(waifuCommand, (err) => {
     if (err) {
